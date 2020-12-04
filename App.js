@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import Slider from '@react-native-community/slider';
+import { AdMobBanner } from 'expo-ads-admob';
 
 export default function App() {
 
@@ -21,24 +22,29 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Button 
-        title="?"
-      />
 
-      <Text>THC</Text>
+      <View >
+      <Text 
+        style={styles.questions}
+      >?</Text>
+
+      <Text style={styles.title}>THC%</Text>
       <TextInput 
+        style={styles.inputField}
         value={thc} 
         onChangeText={thc => SetTHC(thc)}
       />
 
-      <Text>weight</Text>
+      <Text style={styles.title}>Weight(g)</Text>
       <TextInput 
+        style={styles.inputField}
         value={weight} 
         onChangeText={weight => Setweight(weight)}
       />
 
-      <Text>Number of Units in Batch</Text>
+      <Text>Number of Units Cooking in the Batch</Text>
       <TextInput 
+        style={styles.inputField}
         value={dosage} 
         onChangeText={dosage => SetDosage(dosage)}
       />
@@ -57,19 +63,75 @@ export default function App() {
       <Button
         title="Calculate"
         onPress={CalculateDosage}
+        disabled={thc == "" || weight == "" || dosage == ""}
+        
       />
-      <Text>This batch has {calculationForTotalTHC}mg of THC total.</Text>
-      <Text>{dosage} units with about {calculationForDosage}mg of THC each.</Text>
-      <StatusBar style="auto" />
+      <Text style={styles.answers}>About {calculationForTotalTHC}mg of THC total.</Text>
+      <Text style={styles.answers}>{dosage} units with about {calculationForDosage}mg of THC each.</Text>
+
+    
     </View>
+
+
+    <View>
+      <AdMobBanner
+        style={styles.adMob}
+        bannerSize="fullBanner"
+        adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+      />
+    </View>
+
+
+    </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#dddddd',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
   },
+
+  title: {
+    fontWeight: "bold",
+  },
+
+  inputField: {
+    fontSize: 25,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#999999',
+    borderRadius: 9,
+    padding: 9,
+    margin: 5,
+    minWidth: '50%',
+    minHeight: 66,
+    textAlign: 'center',
+  },
+
+  answers: {
+    fontSize: 17,
+    padding: 4,
+  },
+
+  button: {
+    padding: 15,
+  },
+
+  questions: {
+    fontSize: 40,
+    color: "#00aeef",
+    fontWeight: "bold",
+    marginTop: 25,
+  },
+
+  adMob: {
+
+  }
+
+
 });
