@@ -3,10 +3,6 @@ import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Ke
 import Slider from '@react-native-community/slider';
 import { AdMobBanner, AdMobInterstitial } from 'expo-ads-admob';
 
-
-
-
-
 export default function Home(props) {
 
 
@@ -18,6 +14,8 @@ export default function Home(props) {
   const [ calculationForTotalTHC, setcalculationForTotalTHC ] = useState('');
 
   const [ interstitialCount, SetInterstitialCount ] = useState(0);
+
+  const [ageVerification, setAgeVerification ]= useState(true);
 
   // Ad Mob ID's
   // Banner Test ID
@@ -34,7 +32,7 @@ export default function Home(props) {
   }
 
   async function adMobCalls() {
-    if (interstitialCount === 2) {
+    if (interstitialCount === 1) {
         await AdMobInterstitial.setAdUnitID(adMobInterstitialTestID); // Test ID, Replace with your-admob-unit-id
         await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
         await AdMobInterstitial.showAdAsync() 
@@ -44,6 +42,20 @@ export default function Home(props) {
     }
       
   }
+
+  if (ageVerification) {
+    return (
+        <View style={styles.ageVerfication}>
+            <Text style={styles.headingOne}>Are you 21 years or older?</Text>
+            <Button 
+                title="Yes" 
+                onPress={() => setAgeVerification(false)}
+            />
+            <Button title="No" />
+        </View>
+       
+    )
+  } else
 
   return (
 
@@ -109,8 +121,8 @@ export default function Home(props) {
         onPress={CalculateDosage}
         disabled={thc == "" || weight == "" || dosage == "" || isNaN(thc) || isNaN(weight) || isNaN(dosage)}
         backgroundColor="#fff"
-        
       />
+
       <Text style={styles.answers}>About {calculationForTotalTHC}mg of THC total.</Text>
       <Text style={styles.answers}>{dosage} units with about {calculationForDosage}mg of THC each.</Text>
 
@@ -127,6 +139,10 @@ export default function Home(props) {
   );
 }
 
+
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -135,7 +151,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#dddddd',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 10,
+    padding: 7,
+    
+  },
+
+  ageVerfication: {
+    flex: 1,
+    flexWrap: 'nowrap',
+    alignContent: 'stretch',
+    backgroundColor: '#dddddd',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 7,
     
   },
 
@@ -149,15 +176,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
+  headingOne: {
+    fontWeight: "bold",
+    fontSize: 17,
+    padding: 12,
+  },
+
   inputField: {
-    fontSize: 25,
+    fontSize: 20,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#999999',
     borderRadius: 9,
     padding: 9,
     margin: 5,
-    marginBottom: 20,
+    marginBottom: 12,
     minWidth: '50%',
     minHeight: 66,
     textAlign: 'center',
@@ -173,7 +206,7 @@ const styles = StyleSheet.create({
   },
 
   questions: {
-    fontSize: 40,
+    fontSize: 30,
     color: "#00aeef",
     fontWeight: "bold",
     padding: 15,
