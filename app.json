@@ -29,7 +29,8 @@
       },
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-3940256099942544/6300978111"
-      }
+      },
+      "package": "com.adamrd231.THCedibleCalculator"
     },
     "web": {
       "favicon": "./assets/favicon.png"

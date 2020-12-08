@@ -6,12 +6,12 @@ import { AdMobBanner, AdMobInterstitial } from 'expo-ads-admob';
 export default function Home(props) {
 
 
-  const [ thc, SetTHC ] = useState('');
-  const [ weight, Setweight ] = useState('');
-  const [ dosage, SetDosage ] = useState('');
-  const [ conversionFactor, setConversionFactor ] = useState('70');
-  const [ calculationForDosage, setcalculationForDosage ] = useState('');
-  const [ calculationForTotalTHC, setcalculationForTotalTHC ] = useState('');
+  const [ thc, SetTHC ] = useState();
+  const [ weight, Setweight ] = useState();
+  const [ dosage, SetDosage ] = useState();
+  const [ conversionFactor, setConversionFactor ] = useState(70);
+  const [ calculationForDosage, setcalculationForDosage ] = useState();
+  const [ calculationForTotalTHC, setcalculationForTotalTHC ] = useState();
 
   const [ interstitialCount, SetInterstitialCount ] = useState(0);
 
@@ -43,7 +43,7 @@ export default function Home(props) {
       
   }
 
-  if (ageVerification) {
+  if (ageVerification == true) {
     return (
         <View style={styles.ageVerfication}>
             <Text style={styles.headingOne}>Are you 21 years or older?</Text>
@@ -105,16 +105,16 @@ export default function Home(props) {
         onSubmitEditing={Keyboard.dismiss}
       />
 
-      <Text>Conversion Factor: {Number(conversionFactor).toFixed()}</Text>
-      <Slider 
-        value={conversionFactor}
-        onSlidingComplete={(conversionFactor) => setConversionFactor(Number(conversionFactor).toFixed())}
-        style={{width: 200, height: 30}}
-        minimumValue={0}
-        maximumValue={100}
-        minimumTrackTintColor="#efefef"
-        maximumTrackTintColor="#000000"
-      />
+        <Text>Conversion Factor: {Number(conversionFactor).toFixed()}</Text>
+        <Slider 
+          value={conversionFactor}
+          onSlidingComplete={(conversionFactor) => setConversionFactor(Number(conversionFactor).toFixed())}
+          style={{width: 200, height: 30}}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#efefef"
+          maximumTrackTintColor="#000000"
+        />
 
       <Button
         title="Calculate"
@@ -122,10 +122,11 @@ export default function Home(props) {
         disabled={thc == "" || weight == "" || dosage == "" || isNaN(thc) || isNaN(weight) || isNaN(dosage)}
         backgroundColor="#fff"
       />
-
+    <View style={styles.answerContainer}>
       <Text style={styles.answers}>About {calculationForTotalTHC}mg of THC total.</Text>
       <Text style={styles.answers}>{dosage} units with about {calculationForDosage}mg of THC each.</Text>
-
+    </View>
+      
     </View>
 
       <AdMobBanner
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexWrap: 'nowrap',
-    alignContent: 'stretch',
+    // alignContent: 'stretch',
     backgroundColor: '#dddddd',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
   ageVerfication: {
     flex: 1,
     flexWrap: 'nowrap',
-    alignContent: 'stretch',
+    // alignContent: 'stretch',
     backgroundColor: '#dddddd',
     alignItems: 'center',
     justifyContent: 'center',
@@ -196,9 +197,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  answerContainer: {
+    marginTop: 10,
+
+  },
+
   answers: {
     fontSize: 17,
     padding: 4,
+    textAlign: "center",
+
   },
 
   button: {
@@ -212,9 +220,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
 
-  adMob: {
-
-  }
 
 
 });
